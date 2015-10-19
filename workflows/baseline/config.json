@@ -1,6 +1,6 @@
 {
     "raw_fastq_gz_dir": "link",
-    "meta_file": "meta_date.txt",
+    "meta_file": "meta_data.txt",
     "database":
     {
         "base_dir": "database",

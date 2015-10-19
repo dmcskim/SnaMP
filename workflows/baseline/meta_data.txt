@@ -1,4 +1,4 @@
-#SampleID	LinkerPrimerSequence	ReversePrimer	ForwardFastq	ReverseFastq	Description
+#SampleID	ForwardPrimer	ReversePrimer	ForwardFastqGZ	ReverseFastqGZ	Description
 negative1_N104	AGAGTTTGATCMTGGCTCAG	ATTACCGCGGCTGCTGG	RT530-Batch1-Negative_S94_L001_R1_001.fastq.gz	RT530-Batch1-Negative_S94_L001_R2_001.fastq.gz	NA
 negative2_N104	AGAGTTTGATCMTGGCTCAG	ATTACCGCGGCTGCTGG	RT530-Batch2-Negative_S96_L001_R1_001.fastq.gz	RT530-Batch2-Negative_S96_L001_R2_001.fastq.gz	NA
 negative3_N104	AGAGTTTGATCMTGGCTCAG	ATTACCGCGGCTGCTGG	RT530-Batch3-Negative_S116_L001_R1_001.fastq.gz	RT530-Batch3-Negative_S116_L001_R2_001.fastq.gz	NA
