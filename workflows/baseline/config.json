@@ -1,0 +1,53 @@
+{
+    "raw_fastq_gz_dir": "link",
+    "meta_file": "meta_date.txt",
+    "database":
+    {
+        "base_dir": "database",
+        "name": "homd",
+        "version": "12.3",
+        "fa_file": "homd.fa",
+        "tax_file": "homd.tax"
+    },
+    "tool_version":
+    {
+        "blast+": "2.2.31",
+        "pear": "0.9.6",
+        "fastx": "0.0.13"
+    },
+    "parameters":
+    {
+        "quality_filtering":
+        {
+            "percentage": "90",
+            "qscore": "30"
+        },
+        "blast":
+        {
+            "identity": "97",
+            "coverage": "97"
+        }
+    },
+    "file_names":
+    {
+        "mkdir_done": "mkdir.done",
+        "mkblastdb_done": "mkblastdb.done",
+        "table_results": 
+        {
+            "relative_otu_table": "relative_otu_table.txt",
+            "absolute_otu_table": "absolute_otu_table.txt",
+            "seq_count_table": "seq_count_table.txt"
+        }
+    },
+    "dir_names":
+    {
+        "table_dir": "table",
+        "blast_dir": "blast",
+        "collapse_dir": "collapse",
+        "strip_dir": "strip",
+        "fq_2_fa_dir": "fq_2_fa",
+        "filter_dir": "filter",
+        "join_dir": "join",
+        "unzip_dir": "unzip"
+    }
+}
