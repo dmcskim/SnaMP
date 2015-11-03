@@ -1,6 +1,6 @@
-.python-version
-.snakemake
-config.json
-cluster.json
-Snakefile
-meta_data.txt
+*
+!link/*
+!tools/*
+!misc/*
+!workflows/*
+!database/*
