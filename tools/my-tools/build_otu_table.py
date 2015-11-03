@@ -30,7 +30,7 @@ def build_column(location_dict, id_2_label, res_file):
                 marker += 1
             
             if marker == 5:
-                content = line.split('\t')
+                content = line.strip().split('\t')
                 count = int(content[0].split('-')[1])
                 taxa_id = content[1]
                 identity = float(content[7])
@@ -46,4 +46,5 @@ if __name__ == '__main__':
     name_list = [x[0] for x in c_list]
     df = pd.DataFrame({x[0]:x[1] for x in c_list}, index=location_dict.keys())
     df.reindex_axis(name_list, axis=1)
+    df = df[(df != 0).any(axis=1)]
     df.to_csv(sys.argv[-1], sep = '\t')

@@ -17,7 +17,6 @@ def get_primer_len(sample_id):
 
 rule all:
     input: 
-        expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["relative_otu_table"]),
         expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["absolute_otu_table"]),
         expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["seq_count_table"])
 
@@ -94,11 +93,6 @@ rule make_otu_table:
         taxonomy = expand("{dir}/{name}/{version}/{file}", dir=config["database"]["base_dir"], name=config["database"]["name"], version=config["database"]["version"], file=config["database"]["tax_file"]) 
     output: expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["absolute_otu_table"])
     shell: "python tools/my-tools/build_otu_table.py {input.blast_res} {input.taxonomy} {output}"
-
-rule absolute_2_relative:
-    input: rules.make_otu_table.output
-    output: expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["relative_otu_table"])
-    shell: "python tools/my-tools/absolute_2_relative.py {input} {output}"
 
 rule count:
     input:

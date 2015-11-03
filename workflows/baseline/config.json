@@ -34,7 +34,6 @@
         "mkblastdb_done": "mkblastdb.done",
         "table_results": 
         {
-            "relative_otu_table": "relative_otu_table.txt",
             "absolute_otu_table": "absolute_otu_table.txt",
             "seq_count_table": "seq_count_table.txt"
         }
