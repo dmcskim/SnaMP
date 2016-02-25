@@ -17,7 +17,7 @@ for key in sample_id_dict:
 
 records = []
 for key in sorted(sample_id_dict.keys()):
-    records.append((key, 'AGAGTTTGATCMTGGCTCAG', 'ATTACCGCGGCTGCTGG', sample_id_dict[key][0], sample_id_dict[key][1], 'NA'))
+    records.append((key, 'CCTACGGGNGGCWGCAG', 'GACTACHVGGGTATCTAATCC', sample_id_dict[key][0], sample_id_dict[key][1], 'NA'))
 
 df = pd.DataFrame(records, columns=['#SampleID', 'ForwardPrimer', 'ReversePrimer', 'ForwardFastqGZ', 'ReverseFastqGZ', 'Description'])
 df.to_csv('meta_data.txt', sep='\t', index=False)
