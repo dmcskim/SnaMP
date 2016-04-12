@@ -10,6 +10,7 @@ git clone https://github.com/Wayne-Zen/SnaMP.git
 ```bash
 module load python/anaconda
 source activate /projects/academic/mjbuck/Buck_Lab_Members/wei/SnakeEnv
+# source deactivate
 ```
 
 ## Workflow 0: baseline
