@@ -67,4 +67,5 @@ source activate /projects/academic/mjbuck/Buck_Lab_Members/wei/SnakeEnv
   snakemake -p -j 100 --cluster-config cluster.json --cluster "sbatch --partition {cluster.partition} --time {cluster.time} --nodes {cluster.nodes} --ntasks-per-node {cluster.ntasks-per-node}"
   ```
 
-
+### Database
+Greengenes database is too big to be uploaded to github, so .tgz file is created.
