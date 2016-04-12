@@ -40,7 +40,7 @@ source activate /projects/academic/mjbuck/Buck_Lab_Members/wei/SnakeEnv
 3. Build meta-data file.
 
   ```bash
-  python build_meta.py
+  python build_meta.py -r V13
   ```
 
   _meta_data.txt_ is needed for specifying more detailed infomation about each sample.
@@ -48,7 +48,9 @@ source activate /projects/academic/mjbuck/Buck_Lab_Members/wei/SnakeEnv
   
   * match up forward and reverse sequence files
   * head text before the first `_` in sequence file name will be used as _SampleID_, e.g. given _P00010_S48_L001_R1_001.fastq.gz_	and _P00010_S48_L001_R2_001.fastq.gz_, the _SampleID_ will identitied as _P00010_
-  * fill _ForwardPrimer_ and _ReversePrimer_ with _AGAGTTTGATCMTGGCTCAG_ and _ATTACCGCGGCTGCTGG_
+  * set hyper-variable region selection by `-r`, choose from `V13` and `V34`
+    * V13: fill _ForwardPrimer_ and _ReversePrimer_ with _AGAGTTTGATCMTGGCTCAG_ and _ATTACCGCGGCTGCTGG_
+    * V34: fill _ForwardPrimer_ and _ReversePrimer_ with _CCTACGGGNGGCWGCAG_ and _GACTACHVGGGTATCTAATCC_
 
   A sample _meta_data.txt_:
   
