@@ -26,7 +26,7 @@ for f in files:
     else:
         sample_id_dict[sample_id] = [f]
 
-for key in sample_id_dict:
+for sample_id in sample_id_dict:
     sample_id_dict[sample_id] = sorted(sample_id_dict[sample_id])
 
 records = []
