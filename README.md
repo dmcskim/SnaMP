@@ -41,7 +41,7 @@ source activate /projects/academic/mjbuck/Buck_Lab_Members/wei/SnakeEnv
 3. Build meta-data file.
 
   ```bash
-  python build_meta.py -r V13
+  python build_meta.py -r V34
   ```
 
   _meta_data.txt_ is needed for specifying more detailed infomation about each sample.
@@ -67,5 +67,3 @@ source activate /projects/academic/mjbuck/Buck_Lab_Members/wei/SnakeEnv
   snakemake -p -j 100 --cluster-config cluster.json --cluster "sbatch --partition {cluster.partition} --time {cluster.time} --nodes {cluster.nodes} --ntasks-per-node {cluster.ntasks-per-node}"
   ```
 
-### Database
-Greengenes database is too big to be uploaded to github, so .tgz file is created.
