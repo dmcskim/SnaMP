@@ -1,9 +1,22 @@
 import os
+import re
 import argparse
+import textwrap
 import pandas as pd
 
-parser = argparse.ArgumentParser(description='Generate simple meta-data file from input file names.')
+parser = argparse.ArgumentParser(description='Generate simple meta-data file from input file names.',
+                                 formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('-r', '--region', help='select HV region', choices=['V13', 'V34'], required=True)
+parser.add_argument('-m', '--matching_regex',
+                    help=textwrap.dedent('''\
+                        matching regular expression for determing sample_id in meta_data file,
+                        use () to indicate group.
+                        e.g.
+                        '^(.+)_S\d+_L001_R[12]_001.fastq.gz'
+                        '^(.+)_L001_R[12]_001.fastq.gz'
+                        '^(.+)_.+_L001_R[12]_001.fastq.gz'
+                        '''),
+                    default='^(.+)_S\d+_L001_R[12]_001.fastq.gz$')
 parser.add_argument('-o', '--output_fp', help='output file path', default='meta_data.txt')
 args = parser.parse_args()
 
@@ -20,7 +33,10 @@ for f in files:
     if f.startswith('.'):
         continue
     # sample_id construction
-    sample_id = f.split('_')[0]
+    m = re.match(args.matching_regex, f)
+    if not m:
+        raise RuntimeError('"%s" does not match "%s"' % (f, args.matching_regex))
+    sample_id = m.group(1)
     if sample_id in sample_id_dict:
         sample_id_dict[sample_id].append(f)
     else:
