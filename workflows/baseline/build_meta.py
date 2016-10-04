@@ -4,8 +4,13 @@ import argparse
 import textwrap
 import pandas as pd
 
+
+class CustomFormatter(argparse.ArgumentDefaultsHelpFormatter, 
+                      argparse.RawTextHelpFormatter):
+   pass
+
 parser = argparse.ArgumentParser(description='Generate simple meta-data file from input file names.',
-                                 formatter_class=argparse.RawTextHelpFormatter)
+                                 formatter_class=CustomFormatter)
 parser.add_argument('-r', '--region', help='select HV region', choices=['V13', 'V34'], required=True)
 parser.add_argument('-m', '--matching_regex',
                     help=textwrap.dedent('''\
