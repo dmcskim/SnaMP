@@ -1,0 +1,25 @@
+{
+    "__default__":
+    {
+        "partition": "general-compute",
+        "time": "00:15:00",
+        "nodes": 1,
+        "ntasks-per-node": 1
+    },
+    "join":
+    {
+        "time": "01:00:00"
+    },
+    "blast":
+    {
+        "time": "02:00:00"
+    },
+    "make_otu_table":
+    {
+        "time": "00:30:00"
+    },
+    "count":
+    {
+        "time": "00:30:00"
+    }
+}

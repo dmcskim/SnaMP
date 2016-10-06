@@ -17,9 +17,9 @@ parser.add_argument('-m', '--matching_regex',
                         matching regular expression for determing sample_id in meta_data file,
                         use () to indicate group.
                         e.g.
-                        '^(.+)_S\d+_L001_R[12]_001.fastq.gz'
-                        '^(.+)_L001_R[12]_001.fastq.gz'
-                        '^(.+)_.+_L001_R[12]_001.fastq.gz'
+                        '^(.+)_S\d+_L001_R[12]_001.fastq.gz$'
+                        '^(.+)_L001_R[12]_001.fastq.gz$'
+                        '^(.+)_.+_L001_R[12]_001.fastq.gz$'
                         '''),
                     default='^(.+)_S\d+_L001_R[12]_001.fastq.gz$')
 parser.add_argument('-o', '--output_fp', help='output file path', default='meta_data.txt')
@@ -32,7 +32,7 @@ elif args.region == 'V34':
     f_primer = 'CCTACGGGNGGCWGCAG'
     r_primer = 'GACTACHVGGGTATCTAATCC'
 
-files = os.listdir('link')
+files = os.listdir('input')
 sample_id_dict = {}
 for f in files:
     if f.startswith('.'):

@@ -1,7 +1,1 @@
 .snakemake/
-build_meta.py
-cluster.json
-config.json
-dag.png
-Snakefile
-meta_data.txt
