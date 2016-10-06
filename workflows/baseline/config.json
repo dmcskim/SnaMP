@@ -1,5 +1,5 @@
 {
-    "raw_fastq_gz_dir": "link",
+    "raw_fastq_gz_dir": "input",
     "meta_file": "meta_data.txt",
     "database":
     {

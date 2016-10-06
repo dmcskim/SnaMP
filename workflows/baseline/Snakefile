@@ -92,7 +92,7 @@ rule make_otu_table:
         blast_res = expand("{dir}/{sample_id}.txt", dir=config["dir_names"]["blast_dir"], sample_id=sample_ids),
         taxonomy = expand("{dir}/{name}/{version}/{file}", dir=config["database"]["base_dir"], name=config["database"]["name"], version=config["database"]["version"], file=config["database"]["tax_file"]) 
     output: expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["absolute_otu_table"])
-    shell: "python tools/my-tools/build_otu_table.py {input.blast_res} {input.taxonomy} {output}"
+    shell: "python build_otu_table.py {input.blast_res} {input.taxonomy} {output}"
 
 rule count:
     input:
@@ -101,7 +101,7 @@ rule count:
         filter_count = expand("{dir}/{sample_id}.fq", dir=config["dir_names"]["filter_dir"], sample_id=sample_ids),
         blast_count = rules.make_otu_table.output
     output: expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["seq_count_table"])
-    shell: "python tools/my-tools/count.py {input.original_count} {input.join_count} {input.filter_count} {input.blast_count} {output}"
+    shell: "python count.py {input.original_count} {input.join_count} {input.filter_count} {input.blast_count} {output}"
     
 rule clean:
     params: 
@@ -110,3 +110,6 @@ rule clean:
         mkblastdb_done = config["file_names"]["mkblastdb_done"],
         database = config["database"]["name"] + "*"
     shell: "rm -rf {params.dirs} {params.mkdir_done} {params.mkblastdb_done} {params.database}"
+
+rule unlink:
+    shell: "find . -maxdepth 1 -type l -exec rm {{}} \;"

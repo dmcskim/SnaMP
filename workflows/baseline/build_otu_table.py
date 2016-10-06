@@ -47,4 +47,6 @@ if __name__ == '__main__':
     df = pd.DataFrame({x[0]:x[1] for x in c_list}, index=location_dict.keys())
     df.reindex_axis(name_list, axis=1)
     df = df[(df != 0).any(axis=1)]
-    df.to_csv(sys.argv[-1], sep = '\t')
+    df.insert(loc=len(df.columns), column="taxonomy", value=df.index)
+    df.insert(loc=0, column="#OTU ID", value=["OTU_" + str(x) for x in range(len(df.index))])
+    df.to_csv(sys.argv[-1], sep = '\t', index=False)
