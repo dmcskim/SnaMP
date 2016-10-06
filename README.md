@@ -20,7 +20,7 @@ source deactivate
 
 ## Workflow 0: baseline
 
-![workflow_0](workflows/baseline/dag.png)
+![workflow_0](misc/baseline.png)
 
 
 
