@@ -20,6 +20,8 @@ source deactivate
 
 ## Workflow 0: baseline
 
+  * Use HOMD database
+
 ![workflow_0](misc/baseline.png)
 
 
@@ -28,9 +30,11 @@ source deactivate
 
 1. Load _baseline_ workflow
 
+  Repalce the `$WORKFLOW` with the name of selected workflow, e.g. `baseline`
+
   ```bash
   cd SnaMP
-  ln -s workflows/baseline/* .
+  ln -s workflows/$WORKFLOW/* .
   ```
 
 2. Prepare sequencing result
@@ -84,3 +88,9 @@ source deactivate
   ```
   snakemake unlink
   ```
+
+
+## Known Issues
+
+* empty sequence file
+* RDP too big
