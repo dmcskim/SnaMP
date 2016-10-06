@@ -50,7 +50,7 @@ source deactivate
 3. Build meta-data file
 
   ```bash
-  python build_meta.py -r V34
+  python tools/my-tools/build_meta.py -r V34
   ```
 
   _meta_data.txt_ is needed for specifying more detailed infomation about each sample.
