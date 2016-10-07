@@ -1,19 +1,19 @@
 {
     "raw_fastq_gz_dir": "input",
     "meta_file": "meta_data.txt",
-    "database":
+    "chimera_db":
     {
         "base_dir": "database",
-        "name": "homd",
-        "version": "14.5",
-        "fa_file": "homd.fa",
-        "tax_file": "homd.tax"
+        "name": "Chimera",
+        "version": "gold",
+        "fa_file": "gold.fa"
     },
     "tool_version":
     {
         "blast+": "2.2.31",
         "pear": "0.9.6",
-        "fastx": "0.0.13"
+        "fastx": "0.0.13",
+        "uparse": "8.0"
     },
     "parameters":
     {
@@ -41,8 +41,7 @@
     "dir_names":
     {
         "table_dir": "table",
-        "blast_dir": "blast",
-        "collapse_dir": "collapse",
+        "uparse_dir": "uparse",
         "strip_dir": "strip",
         "fq_2_fa_dir": "fq_2_fa",
         "filter_dir": "filter",

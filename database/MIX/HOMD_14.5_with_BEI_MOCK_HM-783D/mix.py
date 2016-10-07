@@ -7,22 +7,22 @@ from fuzzywuzzy import process
 from termcolor import colored
 
 parser = argparse.ArgumentParser(description='Mix HOMD/GG database with Mock database')
-parser.add_argument('--hg_fa_fp', help='HOMD/GG fasta file', required=True)
-parser.add_argument('--hg_tax_fp', help='HOMD/GG taxonomy file', required=True)
+parser.add_argument('--major_fa_fp', help='Major fasta file', required=True)
+parser.add_argument('--major_tax_fp', help='Major taxonomy file', required=True)
 parser.add_argument('--mock_fa_fp', help='Mock fasta file', required=True)
 parser.add_argument('--mock_tax_fp', help='Mock taxonomy file', required=True)
 parser.add_argument('-o', '--output_dir', help='Ouput dir', default='./')
 args = parser.parse_args()
 
 
-def match_taxonomy(hg_taxa, mock_taxa):
-    # generate hg taxa set
-    hg_taxa_set = set()
-    with open(hg_taxa) as f:
+def match_taxonomy(major_taxa, mock_taxa):
+    # generate major taxa set
+    major_taxa_set = set()
+    with open(major_taxa) as f:
         for line in f:
             taxa = line.strip().split('\t')[1]
             # full taxa to binomial name
-            hg_taxa_set.add((' '.join(taxa.split(' ')[-2:])))
+            major_taxa_set.add((' '.join(taxa.split(' ')[-2:])))
 
     # generate mock binomial name
     mock_taxa_set = set()
@@ -35,7 +35,7 @@ def match_taxonomy(hg_taxa, mock_taxa):
     convert_map = {}
     for x in sorted(list(mock_taxa_set)):
         print(x)
-        m = process.extract(x, hg_taxa_set, limit=3)
+        m = process.extract(x, major_taxa_set, limit=3)
         candidates = OrderedDict(zip(list(range(len(m) + 1)), 
                                      [('treat as new taxonomy label', 0)] + m))
         if m[0][1] == 100:
@@ -77,7 +77,7 @@ def feed_tax(input_fp, tax, prefix):
     with open(input_fp) as f:
         for line in f:
             index, taxa = line.strip().split('\t')
-            if prefix == 'HG_':
+            if prefix == 'Major_':
                 binomial_name = ' '.join(taxa.split(' ')[-2:])
                 if binomial_name in convert_map:
                     tax.write('{}\t{}\n'.format(prefix + index, convert_map[binomial_name]))
@@ -88,15 +88,16 @@ def feed_tax(input_fp, tax, prefix):
             else:
                 raise Exception('No matched prefix')
 
-convert_map = match_taxonomy(args.hg_tax_fp, args.mock_tax_fp)
-print()
-for key, value in convert_map.items():
-    print("{} -> \n{}".format(key, value))
-with open(args.output_dir + '/mix.fa', 'w') as fa, \
-     open(args.output_dir + '/mix.tax', 'w') as tax:
+if __name__ == '__main__':
+    convert_map = match_taxonomy(args.major_tax_fp, args.mock_tax_fp)
+    print()
+    for key, value in convert_map.items():
+        print("{} -> \n{}".format(key, value))
+    with open(args.output_dir + '/mix.fa', 'w') as fa, \
+         open(args.output_dir + '/mix.tax', 'w') as tax:
 
-     feed_fa(args.hg_fa_fp, fa, prefix='HG_')
-     feed_fa(args.mock_fa_fp, fa, prefix='Mock_') 
-     feed_tax(args.hg_tax_fp, tax, prefix='HG_')
-     feed_tax(args.mock_tax_fp, tax, prefix='Mock_')
+         feed_fa(args.major_fa_fp, fa, prefix='Major_')
+         feed_fa(args.mock_fa_fp, fa, prefix='Mock_') 
+         feed_tax(args.major_tax_fp, tax, prefix='Major_')
+         feed_tax(args.mock_tax_fp, tax, prefix='Mock_')
 

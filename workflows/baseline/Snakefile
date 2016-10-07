@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 configfile: "config.json"
-localrules: all, mkdir, mkblastdb, absolute_2_relative
+localrules: all, mkdir, mkblastdb
 
 df = pd.read_csv(config["meta_file"], sep='\t', header=0)
 sample_ids = list(df['#SampleID'])

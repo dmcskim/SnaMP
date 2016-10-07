@@ -1,0 +1,20 @@
+Acinetobacter baumannii
+Actinomyces odontolyticus
+Bacillus cereus
+Bacteroides vulgatus
+Clostridium beijerinckii
+Deinococcus radiodurans
+Enterococcus faecalis
+Escherichia coli
+Helicobacter pylori
+Lactobacillus gasseri
+Listeria monocytogenes
+Neisseria meningitidis (Original is 'Neisseria meningitides')
+Propionibacterium acnes
+Pseudomonas aeruginosa
+Rhodobacter sphaeroides
+Staphylococcus aureus
+Staphylococcus epidermidis
+Streptococcus agalactiae
+Streptococcus mutans
+Streptococcus pneumoniae

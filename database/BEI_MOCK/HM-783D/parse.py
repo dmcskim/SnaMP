@@ -26,10 +26,11 @@ def parse_file(in_fp, tax, fa):
                 read += line.strip()
         fa.write('%s\n' % read)
 
-cnt = 1
-with open(args.output_dir + '/mock.fa', 'w') as fa, open(args.output_dir + '/mock.tax', 'w') as tax:
-    for in_fp in os.listdir(args.input_dir):
-        if in_fp.startswith('.'):
-            continue
-        parse_file(args.input_dir + '/' + in_fp, tax, fa)
+if __name__ == '__main__':
+    cnt = 1
+    with open(args.output_dir + '/mock.fa', 'w') as fa, open(args.output_dir + '/mock.tax', 'w') as tax:
+        for in_fp in os.listdir(args.input_dir):
+            if in_fp.startswith('.'):
+                continue
+            parse_file(args.input_dir + '/' + in_fp, tax, fa)
 

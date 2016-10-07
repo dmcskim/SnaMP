@@ -1,8 +1,9 @@
 import pandas as pd
 import os
+import textwrap
 
 configfile: "config.json"
-localrules: all, mkdir, mkblastdb, absolute_2_relative
+localrules: all, mkdir, mkblastdb
 
 df = pd.read_csv(config["meta_file"], sep='\t', header=0)
 sample_ids = list(df['#SampleID'])
@@ -17,8 +18,9 @@ def get_primer_len(sample_id):
 
 rule all:
     input: 
-        expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["absolute_otu_table"]),
-        expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["seq_count_table"])
+        config["dir_names"]["uparse_dir"] + "/otu_table.txt"
+        #expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["absolute_otu_table"]),
+        #expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["seq_count_table"])
 
 rule mkdir:
     output: touch(config["file_names"]["mkdir_done"])
@@ -62,54 +64,34 @@ rule strip:
     params: lambda wildcards: get_primer_len(wildcards.sample_id)
     shell: "python tools/my-tools/primer_striper.py {input} {output} {params[0]} {params[1]}"
 
-rule collapse:
-    input: rules.strip.output
-    output: config["dir_names"]["collapse_dir"] + "/{sample_id}.fa"
-    version: config["tool_version"]["fastx"]
-    shell: "tools/fastx/{version}/fastx_collapser -i {input} -o {output} -v"
+rule concat:
+    input: expand("{dir}/{sample_id}.fa", dir=config["dir_names"]["strip_dir"], sample_id=sample_ids)
+    output: config["dir_names"]["uparse_dir"] + "/reads.fa"
+    params: strip_dir = config["dir_names"]["strip_dir"]
+    shell: "python tools/my-tools/concat_stripped.py -i {params.strip_dir} -o {output}"
 
-rule mkblastdb:
-    input: expand("{dir}/{name}/{version}/{file}", dir=config["database"]["base_dir"], name=config["database"]["name"], version=config["database"]["version"], file=config["database"]["fa_file"]) 
-    output: touch(config["file_names"]["mkblastdb_done"])
-    version: config["tool_version"]["blast+"]
-    params: db_name = config["database"]["name"]
-    shell: "tools/blast+/{version}/bin/makeblastdb -in {input} -out {params.db_name} -dbtype 'nucl' -input_type fasta"
-
-rule blast:
+rule uparse:
     input: 
-        query = rules.collapse.output,
-        mkblastdb_done = rules.mkblastdb.output 
-    output: config["dir_names"]["blast_dir"] + "/{sample_id}.txt"
-    version: config["tool_version"]["blast+"]
+        reads = rules.concat.output,
+        chimera_db = expand("{dir}/{name}/{version}/{file}", dir=config["chimera_db"]["base_dir"], name=config["chimera_db"]["name"], version=config["chimera_db"]["version"], file=config["chimera_db"]["fa_file"])
+    output: config["dir_names"]["uparse_dir"] + "/otu_table.txt"
+    version: config["tool_version"]["uparse"]
     params:
-        identity = config["parameters"]["blast"]["identity"],
-        coverage = config["parameters"]["blast"]["coverage"],
-        db_name = config["database"]["name"]
-    shell: 'tools/blast+/{version}/bin/blastn -query {input.query} -task megablast -db {params.db_name} -perc_identity {params.identity} -qcov_hsp_perc {params.coverage} -evalue 1e-6 -max_target_seqs 5 -outfmt "7 qacc sacc qstart qend sstart send length pident qcovhsp qcovs" -out {output}'
-
-rule make_otu_table:
-    input:
-        blast_res = expand("{dir}/{sample_id}.txt", dir=config["dir_names"]["blast_dir"], sample_id=sample_ids),
-        taxonomy = expand("{dir}/{name}/{version}/{file}", dir=config["database"]["base_dir"], name=config["database"]["name"], version=config["database"]["version"], file=config["database"]["tax_file"]) 
-    output: expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["absolute_otu_table"])
-    shell: "python build_otu_table.py {input.blast_res} {input.taxonomy} {output}"
-
-rule count:
-    input:
-        original_count = expand("{dir}/{sample_id}_R1.fq", dir=config["dir_names"]["unzip_dir"], sample_id=sample_ids),
-        join_count = expand("{dir}/{sample_id}.assembled.fastq", dir=config["dir_names"]["join_dir"], sample_id=sample_ids),
-        filter_count = expand("{dir}/{sample_id}.fq", dir=config["dir_names"]["filter_dir"], sample_id=sample_ids),
-        blast_count = rules.make_otu_table.output
-    output: expand("{dir}/{file}", dir=config["dir_names"]["table_dir"], file=config["file_names"]["table_results"]["seq_count_table"])
-    shell: "python count.py {input.original_count} {input.join_count} {input.filter_count} {input.blast_count} {output}"
+        uparse_dir = config["dir_names"]["uparse_dir"]
+    shell: textwrap.dedent('''\
+        tools/uparse/{version}/usearch -derep_fulllength {params.uparse_dir}/reads.fa -fastaout {params.uparse_dir}/derep.fa -sizeout
+        tools/uparse/{version}/usearch -sortbysize {params.uparse_dir}/derep.fa -fastaout {params.uparse_dir}/sorted.fa -minsize 2
+        tools/uparse/{version}/usearch -cluster_otus {params.uparse_dir}/sorted.fa -otus {params.uparse_dir}/otus1.fa -relabel OTU_ -sizeout -uparseout {params.uparse_dir}/results.txt
+        tools/uparse/{version}/usearch -uchime_ref {params.uparse_dir}/otus1.fa -db {input.chimera_db} -strand plus -nonchimeras {params.uparse_dir}/otus.fa
+        tools/uparse/{version}/usearch -usearch_global {params.uparse_dir}/reads.fa -db {params.uparse_dir}/otus.fa -strand plus -id 0.97 -uc {params.uparse_dir}/map.uc
+        python2 tools/uparse_py/uc2otutab.py {params.uparse_dir}/map.uc > {params.uparse_dir}/otu_table.txt''').replace("\n", " && ")
     
 rule clean:
     params: 
         dirs = config["dir_names"].values(),
         mkdir_done = config["file_names"]["mkdir_done"],
         mkblastdb_done = config["file_names"]["mkblastdb_done"],
-        database = config["database"]["name"] + "*"
-    shell: "rm -rf {params.dirs} {params.mkdir_done} {params.mkblastdb_done} {params.database}"
+    shell: "rm -rf {params.dirs} {params.mkdir_done}"
 
 rule unlink:
     shell: "find . -maxdepth 1 -type l -exec rm {{}} \;"
