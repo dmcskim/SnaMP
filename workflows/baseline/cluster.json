@@ -2,13 +2,13 @@
     "__default__":
     {
         "partition": "general-compute",
-        "time": "00:15:00",
+        "time": "00:30:00",
         "nodes": 1,
         "ntasks-per-node": 1
     },
     "join":
     {
-        "time": "01:00:00"
+        "time": "02:00:00"
     },
     "blast":
     {
@@ -16,10 +16,10 @@
     },
     "make_otu_table":
     {
-        "time": "00:30:00"
+        "time": "01:00:00"
     },
     "count":
     {
-        "time": "00:30:00"
+        "time": "01:00:00"
     }
 }

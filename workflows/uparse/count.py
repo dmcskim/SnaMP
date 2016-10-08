@@ -19,18 +19,14 @@ def build_count_table(origin_files, joined_files, filtered_files, otu_table_file
     joined_rate = np.array(joined_counts).astype(float)/np.array(origin_counts) * 100
     filtered_counts = [count_fq(x) for x in filtered_files]
     filtered_rate = np.array(filtered_counts).astype(float)/np.array(joined_counts) * 100
-    blast_counts_series = pd.read_csv(otu_table_file, sep='\t').iloc[: ,1:-1].sum(axis=0)
-    blast_rate = np.array(blast_counts_series).astype(float)/np.array(filtered_counts) * 100
-    sample_ids = blast_counts_series.index
+    sample_ids = pd.read_csv(otu_table_file, sep='\t').columns[1:-1]
     
     ordered_dict = OrderedDict([("#SampleID", sample_ids), \
                                 ("Origin_count", origin_counts), \
                                 ("Joined_count", joined_counts), \
                                 ("Good_quality_count", filtered_counts), \
-                                ("Blast_hit_count", list(blast_counts_series)), \
                                 ("Merge_rate(%)", joined_rate), \
-                                ("Good_quality_rate(%)", filtered_rate), \
-                                ("Blast_hit_rate(%)", blast_rate)])
+                                ("Good_quality_rate(%)", filtered_rate)])
 
     df = pd.DataFrame(dict(ordered_dict))
     df = df.reindex_axis(ordered_dict.keys(), axis=1)
