@@ -8,6 +8,14 @@
         "version": "gold",
         "fa_file": "gold.fa"
     },
+    "annotation_db":
+    {
+        "base_dir": "database",
+        "name": "RDP",
+        "version": "Release_11",
+        "fa_file": "RDP.fa",
+        "tax_file": "RDP.tax"
+    },
     "tool_version":
     {
         "blast+": "2.2.31",
@@ -25,7 +33,8 @@
         "blast":
         {
             "identity": "97",
-            "coverage": "97"
+            "coverage": "97",
+            "num_threads": "12"
         }
     },
     "file_names":
