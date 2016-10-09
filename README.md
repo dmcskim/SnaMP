@@ -24,7 +24,9 @@ source deactivate
 
 ![workflow_0](misc/baseline.png)
 
+  * Use RDP database
 
+![workflow_1](misc/uparse.png)
 
 ### Usage
 
@@ -94,3 +96,4 @@ source deactivate
 
 * empty sequence file
 * RDP too big
+* cluster limit
