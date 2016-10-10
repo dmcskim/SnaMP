@@ -6,7 +6,7 @@ from itertools import islice
 cnt = 1
 with open(sys.argv[-1], 'w') as fo:
     for fp in sys.argv[:-1]:
-        m = re.match(r'^(.+)[.]fa$', fp)
+        m = re.match(r'^.+/(.+)[.]fa$', fp)
         if m:
             print(m.group(1))
             with open(fp) as f:
