@@ -66,8 +66,7 @@ rule strip:
 rule concat:
     input: expand("{dir}/{sample_id}.fa", dir=config["dir_names"]["strip_dir"], sample_id=sample_ids)
     output: config["dir_names"]["uparse_dir"] + "/reads.fa"
-    params: strip_dir = config["dir_names"]["strip_dir"]
-    shell: "python tools/my-tools/concat_stripped.py -i {params.strip_dir} -o {output}"
+    shell: "python tools/my-tools/concat_stripped.py {input} {output}"
 
 rule uparse:
     input: 
