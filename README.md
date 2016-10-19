@@ -12,7 +12,7 @@ module load python/anaconda
 source activate /projects/academic/mjbuck/Buck_Lab_Members/wei/SnakeEnv
 ```
 
-## remove environment 
+## Remove environment 
 
 ```
 source deactivate
