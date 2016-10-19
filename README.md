@@ -20,11 +20,16 @@ source deactivate
 
 ## Workflow 0: baseline
 
-  * Use HOMD database
+  * Closed reference OTU picking using BLAST
+  * By default, use HOMD database
 
 ![workflow_0](misc/baseline.png)
 
-  * Use RDP database
+## Workflow 1: uparse
+
+  * Denovo OTU picking using uparse
+  * Annotate OTU taxonomy label by BLAST search
+  * By default, use RDP database
 
 ![workflow_1](misc/uparse.png)
 
@@ -95,5 +100,5 @@ source deactivate
 ## Known Issues
 
 * empty sequence file
-* RDP too big
+* RDP not uploaded to github
 * cluster limit
