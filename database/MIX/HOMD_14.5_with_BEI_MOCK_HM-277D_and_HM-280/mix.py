@@ -84,7 +84,7 @@ def feed_tax(input_fp, tax, prefix):
                     tax.write('{}\t{}\n'.format(prefix + index, convert_map[binomial_name]))
                 else:
                     tax.write('{}\t{}\n'.format(prefix + index, taxa))
-            elif prefix == 'Mock_':
+            elif prefix.startswith('Mock_'):
                 tax.write('{}\t{}\n'.format(prefix + index, taxa))
             else:
                 raise Exception('No matched prefix')
@@ -100,7 +100,7 @@ if __name__ == '__main__':
          feed_fa(args.major_fa_fp, fa, prefix='Major_')
          feed_tax(args.major_tax_fp, tax, prefix='Major_')
 
-         for mock_fa, mock_tax in zip(args.mock_fa_fps.split(','),
-                                      args.mock_tax_fps.split(',')):
-             feed_fa(mock_fa, fa, prefix='Mock_')
-             feed_tax(mock_tax, tax, prefix='Mock_')
+         for (mock_index, (mock_fa, mock_tax)) in enumerate(
+                zip(args.mock_fa_fps.split(','), args.mock_tax_fps.split(','))):
+             feed_fa(mock_fa, fa, prefix='Mock_' + str(mock_index) + '_')
+             feed_tax(mock_tax, tax, prefix='Mock_' + str(mock_index) + '_')
