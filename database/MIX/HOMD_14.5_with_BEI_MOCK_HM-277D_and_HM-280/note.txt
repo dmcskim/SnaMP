@@ -1,0 +1,1 @@
+python mix.py --major_fa_fp ../../HOMD/14.5/homd.fa --major_tax_fp ../../HOMD/14.5/homd.tax --mock_fa_fps ../../BEI_MOCK/HM-277D/mock.fa,../../BEI_MOCK/HM-280/mock.fa --mock_tax_fps ../../BEI_MOCK/HM-277D/mock.tax,../../BEI_MOCK/HM-280/mock.tax
