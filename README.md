@@ -5,6 +5,12 @@
 git clone https://github.com/Wayne-Zen/SnaMP.git
 ```
 
+## Create environment
+
+```bash
+conda create -c bioconda -m -p py-envs/py35-snakemake python=3.5 pandas snakemake
+```
+
 ## Load environment
 
 ```bash
