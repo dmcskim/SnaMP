@@ -8,8 +8,8 @@ git clone https://github.com/Wayne-Zen/SnaMP.git
 ## Load environment
 
 ```bash
-module load python/anaconda
-source activate /projects/academic/mjbuck/Buck_Lab_Members/wei/SnakeEnv
+module load python/anaconda2-4.2.0
+source activate py35-snakemake
 ```
 
 ## Remove environment 
