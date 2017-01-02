@@ -15,7 +15,7 @@ conda create -c bioconda -m -p py-envs/py35-snakemake python=3.5 pandas snakemak
 
 ```bash
 module load python/anaconda2-4.2.0
-source activate py35-snakemake
+source activate /user/wzheng4/py-envs/py35-snakemake
 ```
 
 ## Remove environment 
