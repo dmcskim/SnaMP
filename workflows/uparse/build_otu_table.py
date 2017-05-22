@@ -35,6 +35,7 @@ if __name__ == '__main__':
     otu_id_2_taxa_label = parse_blast_res(id_2_label, sys.argv[2])
     df = pd.read_csv(sys.argv[3], sep='\t') 
     df.insert(loc=len(df.columns), column="taxonomy", value=[otu_id_2_taxa_label[x] if x in otu_id_2_taxa_label else "unknown" for x in df["OTUId"]])
-    df["OTUId"] = ["OTU_" + str(x) for x in range(len(df.index))]
+    #df["OTUId"] = ["OTU_" + str(x) for x in range(len(df.index))]
+    df["OTUId"] = df.index
     df = df.rename(columns = {'OTUId': "#OTU ID"})
     df.to_csv(sys.argv[4], sep = '\t', index=False)
