@@ -22,7 +22,7 @@ rule all:
 
 rule mkdir:
     output: touch(config["file_names"]["mkdir_done"])
-    params: dirs = config["dir_names"].values()
+    params: dirs = list(config["dir_names"].values())
     shell: "mkdir -p {params.dirs}"
 
 rule unzip:
@@ -106,7 +106,7 @@ rule count:
     
 rule clean:
     params: 
-        dirs = config["dir_names"].values(),
+        dirs = list(config["dir_names"].values()),
         mkdir_done = config["file_names"]["mkdir_done"],
         mkblastdb_done = config["file_names"]["mkblastdb_done"],
         database = config["database"]["name"] + "*"
