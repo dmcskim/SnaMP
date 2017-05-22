@@ -54,7 +54,8 @@ rule fq_2_fa:
     input: rules.filter.output
     output: config["dir_names"]["fq_2_fa_dir"] + "/{sample_id}.fa"
     version: config["tool_version"]["fastx"]
-    shell: "tools/fastx/{version}/fastq_to_fasta -i {input} -o {output} -n -r -v -Q33"
+    #shell: "tools/fastx/{version}/fastq_to_fasta -i {input} -o {output} -n -r -v -Q33"
+    shell: "tools/fastx/{version}/fastq_to_fasta -i {input} -o {output} -n -v -Q33"
 
 rule strip:
     input: rules.fq_2_fa.output
