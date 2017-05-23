@@ -4,7 +4,7 @@ import os
 configfile: "config.json"
 localrules: all, mkdir
 
-df = pd.read_csv(config["meta_file"], sep='\t', header=0)
+df = pd.read_csv(config["meta_file"], sep='\t', header=0, index_col=0)
 sample_ids = list(df['#SampleID'])
 df.index = sample_ids
 
