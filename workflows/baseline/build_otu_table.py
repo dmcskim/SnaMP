@@ -44,10 +44,12 @@ if __name__ == '__main__':
     location_dict, id_2_label = get_location_dict(sys.argv[-2])
     c_list = [build_column(location_dict, id_2_label, x) for x in sys.argv[1:-2]]
     name_list = [x[0] for x in c_list]
-    df = pd.DataFrame({x[0]:x[1] for x in c_list}, index=location_dict.keys())
-    df.reindex_axis(name_list, axis=1)
-    df = df[(df != 0).any(axis=1)]
-    df.insert(loc=len(df.columns), column="taxonomy", value=df.index)
+    rid2label = { y:x for x,y in id_2_label.items() }
+    ids = [ rid2label[x] for x in location_dict.keys() ]
+    df = pd.DataFrame({x[0]:x[1] for x in c_list}, index=ids)
+    #df.reindex_axis(name_list, axis=1)
+    df.insert(loc=len(df.columns), column="taxonomy", value=location_dict.keys())
+    df = df[(df.iloc[:,:-1] != 0).any(axis=1)]
     #df.insert(loc=0, column="#OTU ID", value=["OTU_" + str(x) for x in range(len(df.index))])
     #df.insert(loc=0, column="#OTU ID", value=["OTU_" + str(x) for x in df.index])
     df.insert(loc=0, column="#OTU ID", value=df.index)
