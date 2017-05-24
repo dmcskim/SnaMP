@@ -6,7 +6,7 @@ from itertools import islice
 parser = argparse.ArgumentParser(description='Parse HOMD database to greengene format')
 parser.add_argument('-a', '--aligned_fp', help='aligned fasta file', required=True)
 parser.add_argument('-u', '--unaligned_fp', help='unaligned fasta file', required=True)
-parser.add_argument('-t', '--taxa_fp', help='taxaonomy file', required=True)
+parser.add_argument('-t', '--taxa_fp', help='taxonomy file', required=True)
 parser.add_argument('-d', '--target_dir', default='.')
 args = parser.parse_args()
 
@@ -36,16 +36,16 @@ with open(args.unaligned_fp) as f, \
         open(args.target_dir + '/homd_aligned.fa', 'w') as al, \
         open(args.target_dir + '/homd.fa', 'w') as fa, \
         open(args.target_dir + '/homd.tax', 'w') as tax:
-    cnt = 1
+    #cnt = 1
     for i, line in enumerate(f):
         if i % 2 == 0:
             content = line.strip().split('|')
             header = content[0].strip()[1:]
             
-            al.write('>%d\n' % cnt)
+            al.write('>%s\n' % header)
             al.write('%s\n' % header2align[header])
-            fa.write('>%d\n' % cnt)
-            tax.write('%d\t%s\n' % (cnt, header2taxa[header]))
-            cnt += 1
+            fa.write('>%s\n' % header)
+            tax.write('%s\t%s\n' % (header, header2taxa[header]))
+            #cnt += 1
         else:
             fa.write(line)
