@@ -59,8 +59,8 @@ rule fq_2_fa:
 rule strip:
     input: rules.fq_2_fa.output
     output: config["dir_names"]["strip_dir"] + "/{sample_id}.fa"
-    params: lambda wildcards: get_primer_len(wildcards.sample_id)
-    shell: "python tools/my-tools/primer_striper.py {input} {output} {params[0]} {params[1]}"
+    params: plen=lambda wildcards: get_primer_len(wildcards.sample_id)
+    shell: "python tools/my-tools/primer_striper.py {input} {output} {params.plen[0]} {params.plen[1]}"
 
 rule collapse:
     input: rules.strip.output
