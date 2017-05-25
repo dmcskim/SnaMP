@@ -5,7 +5,7 @@ configfile: "config.json"
 localrules: all, mkdir
 
 df = pd.read_csv(config["meta_file"], sep='\t', header=0, index_col=0)
-sample_ids = list(df['#SampleID'])
+sample_ids = list(df.index)
 df.index = sample_ids
 
 def get_pair_gz(sample_id):
