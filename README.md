@@ -2,20 +2,14 @@
 
 ## Download pipeline
 ```bash
-git clone https://github.com/Wayne-Zen/SnaMP.git
-```
-
-## Create environment
-
-```bash
-conda create -c bioconda -m -p py-envs/py35-snakemake python=3.5 pandas snakemake
+git clone https://github.com/dmcskim/SnaMP.git
 ```
 
 ## Load environment
 
 ```bash
 module load python/anaconda2-4.2.0
-source activate /user/wzheng4/py-envs/py35-snakemake
+source activate /util/academic/python/anaconda/envs/py35
 ```
 
 ## Remove environment 
